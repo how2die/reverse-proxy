@@ -1,0 +1,28 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: how2die-website-ingress
+  namespace: default
+  annotations:
+    kubernetes.io/ingress.class: traefik
+spec:
+  rules:
+  - host: how2die.com
+    http:
+      paths:
+      - backend:
+          serviceName: website
+          servicePort: 80
+  - host: www.how2die.com
+    http:
+      paths:
+      - backend:
+          serviceName: website
+          servicePort: 80
+  - host: jenkins.how2die.com
+    http:
+      paths:
+      - backend:
+          serviceName: jenkins
+          servicePort: 8080

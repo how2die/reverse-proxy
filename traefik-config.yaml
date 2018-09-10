@@ -1,0 +1,36 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: traefik-config
+  namespace: kube-system
+data:
+  traefik.toml: |
+    defaultEntryPoints = ["http", "https"]
+    
+    # Entrypoints definition
+    [entryPoints]
+      [entryPoints.http]
+      address = ":80"
+        [entryPoints.http.redirect]
+          entryPoint = "https"
+      [entryPoints.https]
+      address = ":443"
+        [entryPoints.https.tls]
+
+    # Enable retry sending request if network error
+    [retry]
+
+    # ACME (Let's Encrypt) configuration
+    [acme]
+    email = "admin@how2die.com"
+    storage = "/acme/acme.json"
+    entryPoint = "https"
+    onHostRule = true
+    [acme.httpChallenge]
+    entryPoint = "http"
+    caServer = "https://acme-staging-v02.api.letsencrypt.org/directory"
+
+    [[acme.domains]]
+      main = "how2die.com"
+      sans = ["www.how2die.com"]
