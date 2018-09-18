@@ -1,4 +1,6 @@
 ---
+# ------------------- Namespace: default ------------------- #
+
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
@@ -11,18 +13,41 @@ spec:
   - host: how2die.com
     http:
       paths:
-      - backend:
+      - path: /
+        backend:
           serviceName: website
           servicePort: 80
   - host: www.how2die.com
     http:
       paths:
-      - backend:
+      - path: /
+        backend:
           serviceName: website
           servicePort: 80
   - host: jenkins.how2die.com
     http:
       paths:
-      - backend:
+      - path: /
+        backend:
           serviceName: jenkins
           servicePort: 8080
+
+---
+# ------------------- Namespace: kube-system ------------------- #
+
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: kubernetes-dashboard-ingress
+  namespace: kube-system
+  annotations:
+    kubernetes.io/ingress.class: traefik
+spec:
+  rules:
+  - host: k8s.how2die.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: kubernetes-dashboard
+          servicePort: 443
