@@ -31,6 +31,13 @@ spec:
         backend:
           serviceName: jenkins
           servicePort: 8080
+  - host: sql.how2die.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: phpmyadmin
+          servicePort: 8080
 
 ---
 # ------------------- Namespace: kube-system ------------------- #
