@@ -17,14 +17,14 @@ spec:
         backend:
           serviceName: website
           servicePort: 80
-      - path: /api/messages/
+      - path: /api/messages
         backend:
           serviceName: message-server
           servicePort: 8080
   - host: www.how2die.com
     http:
       paths:
-      - path: /
+      - path: /s
         backend:
           serviceName: website
           servicePort: 80
