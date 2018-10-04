@@ -17,7 +17,7 @@ spec:
         backend:
           serviceName: website
           servicePort: 80
-      - path: /message-server/
+      - path: /api/messages/
         backend:
           serviceName: message-server
           servicePort: 8080
