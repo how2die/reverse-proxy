@@ -24,7 +24,7 @@ spec:
   - host: www.how2die.com
     http:
       paths:
-      - path: /s
+      - path: /
         backend:
           serviceName: website
           servicePort: 80
@@ -40,8 +40,8 @@ spec:
       paths:
       - path: /
         backend:
-          serviceName: phpmyadmin
-          servicePort: 80
+          serviceName: adminer
+          servicePort: 8080
 
 ---
 # ------------------- Namespace: kube-system ------------------- #
