@@ -11,7 +11,7 @@ metadata:
 spec:
   rules:
   - host: how2die.com
-    http:
+    http: &http_rules # YAML id
       paths:
       - path: /
         backend:
@@ -22,12 +22,7 @@ spec:
           serviceName: message-server
           servicePort: 8080
   - host: www.how2die.com
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: website
-          servicePort: 80
+    http: *http_rules
   - host: jenkins.how2die.com
     http:
       paths:
