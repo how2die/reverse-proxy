@@ -44,7 +44,7 @@ spec:
           name: acme
         env:
         - name: DO_AUTH_TOKEN # Used for digitalocean DNS challenge
-          value: "SOMEAUTHTOKEN"
+          value: "ad19c60f9554f4849472028004973f326b4407acea49a09162397cafbe0b66bf"
         args:
         - --api
         - --kubernetes
@@ -69,9 +69,11 @@ spec:
   ports:
   - protocol: TCP
     port: 80
+    nodePort: 31029
     name: http
   - protocol: TCP
     port: 443
+    nodePort: 32702
     name: https
   - protocol: TCP
     port: 8080
