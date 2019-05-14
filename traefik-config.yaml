@@ -31,7 +31,8 @@ data:
     entryPoint = "https"
     onHostRule = true
 
-    [acme.tlsChallenge]
+    [acme.httpChallenge]
+      entryPoint = "http"
 
     [[acme.domains]]
       main = "how2die.com"

@@ -42,9 +42,6 @@ spec:
           name: config
         - mountPath: /acme
           name: acme
-        env:
-        - name: DO_AUTH_TOKEN # Used for digitalocean DNS challenge
-          value: "ad19c60f9554f4849472028004973f326b4407acea49a09162397cafbe0b66bf"
         args:
         - --api
         - --kubernetes
