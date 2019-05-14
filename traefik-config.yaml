@@ -30,9 +30,10 @@ data:
     storage = "/acme/acme.json"
     entryPoint = "https"
     onHostRule = true
-    [acme.httpChallenge]
-    entryPoint = "http"
-    caServer = "https://acme-staging-v02.api.letsencrypt.org/directory"
+    
+    [acme.dnsChallenge]
+      provider = "digitalocean"
+      delayBeforeCheck = 0
 
     [[acme.domains]]
       main = "*.how2die.com"
