@@ -30,9 +30,9 @@ data:
     storage = "/acme/acme.json"
     entryPoint = "https"
     onHostRule = true
-    
+
     [acme.tlsChallenge]
 
     [[acme.domains]]
-      main = "*.how2die.com"
-      sans = ["how2die.com"]
+      main = "how2die.com"
+      sans = ["www.how2die.com, k8s.how2die.com, sql.how2die.com, jenkins.how2die.com"]
