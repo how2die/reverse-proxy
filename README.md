@@ -30,7 +30,7 @@ openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout ./tls.key -out ./tls
 Create a secret object:
 
 ```
-kubectl create secret tls traefik-ui-tls-cert --key ./tls.key --cert ./tls.crt
+kubectl --namespace=traefik create secret tls traefik-ui-tls-cert --key ./tls.key --cert ./tls.crt
 ```
 
 ### Security
@@ -58,13 +58,13 @@ kubectl apply -f traefik-deployment.yaml
 A traefik-ingress-controller pod should now be running. Confirm by typing
 
 ```
-kubectl get pods
+kubectl --namespace=traefik get pods
 ```
 
 You should also be able to see the service
 
 ```
-kubectl get services
+kubectl --namespace=traefik get services
 ```
 
 Remember to route HTTP (80) and HTTPS (443) traffic to the ports exposed by traefik-ingress-service
