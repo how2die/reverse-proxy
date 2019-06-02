@@ -1,72 +1,97 @@
 ---
 kind: Deployment
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 metadata:
   name: traefik-ingress-controller
-  namespace: kube-system
   labels:
-    k8s-app: traefik-ingress-lb
+    k8s-app: traefik-ingress-controller
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
-      k8s-app: traefik-ingress-lb
+      k8s-app: traefik-ingress-controller
   template:
     metadata:
       labels:
-        k8s-app: traefik-ingress-lb
-        name: traefik-ingress-lb
+        k8s-app: traefik-ingress-controller
+        name: traefik-ingress-controller
     spec:
-      serviceAccountName: traefik-ingress-controller
-      terminationGracePeriodSeconds: 60
+      serviceAccountName: traefik-ingress-serviceaccount
+      terminationGracePeriodSeconds: 35
+      volumes:
+        - name: traefik-ui-tls-cert
+          secret:
+            secretName: traefik-ui-tls-cert
+        - name: traefik-ingress-configmap
+          configMap:
+            name: traefik-ingress-configmap
       containers:
       - image: traefik
-        name: traefik-ingress-lb
+        name: traefik-ingress-controller
+        imagePullPolicy: Always
+        resources:
+          limits:
+            cpu: 200m
+            memory: 384Mi
+          requests:
+            cpu: 25m
+            memory: 128Mi
+        livenessProbe:
+          failureThreshold: 2
+          httpGet:
+            path: /ping
+            port: 80
+            scheme: HTTP
+          initialDelaySeconds: 10
+          periodSeconds: 5
+        readinessProbe:
+          failureThreshold: 2
+          httpGet:
+            path: /ping
+            port: 80
+            scheme: HTTP
+          periodSeconds: 5
+        volumeMounts:
+          - mountPath: "/ssl"
+            name: "traefik-ui-tls-cert"
+          - mountPath: "/config"
+            name: "traefik-ingress-configmap"
         ports:
         - name: http
           containerPort: 80
-          hostPort: 80
         - name: https
           containerPort: 443
-          hostPort: 443
-        - name: admin
+        - name: dashboard
           containerPort: 8080
-        volumeMounts:
-        - mountPath: /config
-          name: config
-        - mountPath: /acme
-          name: acme
         args:
-        - --api
-        - --kubernetes
-        - --logLevel=DEBUG
-        - --configFile=/config/traefik.toml
-      volumes:
-      - name: config
-        configMap:
-          name: traefik-config
-      - name: acme
-        hostPath:
-          path: /srv/configs
+        - --logLevel=INFO
+        - --configfile=/config/traefik.toml
 ---
 kind: Service
 apiVersion: v1
 metadata:
-  name: traefik-ingress-service
-  namespace: kube-system
+  name: traefik-ingress-controller-http-service
+  annotations: {}
+    # service.beta.kubernetes.io/aws-load-balancer-internal: 0.0.0.0/0
 spec:
   selector:
-    k8s-app: traefik-ingress-lb
+    k8s-app: traefik-ingress-controller
   ports:
   - protocol: TCP
     port: 80
-    nodePort: 31029
     name: http
   - protocol: TCP
     port: 443
-    nodePort: 32702
     name: https
-  - protocol: TCP
-    port: 8080
-    name: admin
   type: NodePort
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: traefik-ingress-controller-dashboard-service
+spec:
+  selector:
+    k8s-app: traefik-ingress-controller
+  ports:
+  - port: 8080
+name: dashboard

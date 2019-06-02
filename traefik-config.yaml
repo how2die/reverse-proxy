@@ -2,38 +2,35 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: traefik-config
-  namespace: kube-system
+  name: traefik-configmap
+  namespace: traefik
 data:
   traefik.toml: |
-    defaultEntryPoints = ["http", "https"]
+    defaultEntryPoints = ["http","https"]
 
-    # Accept invalid SSL certificates for backends
-    insecureSkipVerify = true    
-    
-    # Entrypoints definition
     [entryPoints]
+
       [entryPoints.http]
       address = ":80"
-        [entryPoints.http.redirect]
-          entryPoint = "https"
+
       [entryPoints.https]
       address = ":443"
         [entryPoints.https.tls]
+          [[entryPoints.https.tls.certificates]]
+          CertFile = "/ssl/tls.crt"
+          KeyFile = "/ssl/tls.key"
 
-    # Enable retry sending request if network error
-    [retry]
+      [entryPoints.traefik]
+        address = ":8080"
+        [entryPoints.traefik.auth.basic]
+        users = ["admin:$apr1$zjjGWKW4$W2JIcu4m26WzOzzESDF0W/"]
 
-    # ACME (Let's Encrypt) configuration
-    [acme]
-    email = "admin@how2die.com"
-    storage = "/acme/acme.json"
-    entryPoint = "https"
-    onHostRule = true
+    [kubernetes]
+      [kubernetes.ingressEndpoint]
+        publishedService = "traefik/traefik"
 
-    [acme.httpChallenge]
-      entryPoint = "http"
+    [ping]
+    entryPoint = "http"
 
-    [[acme.domains]]
-      main = "how2die.com"
-      sans = ["www.how2die.com", "k8s.how2die.com", "sql.how2die.com", "jenkins.how2die.com"]
+    [api]
+    entryPoint = "traefik"
