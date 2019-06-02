@@ -58,13 +58,13 @@ kubectl apply -f traefik-deployment.yaml
 A traefik-ingress-controller pod should now be running. Confirm by typing
 
 ```
-kubectl --namespace=kube-system get pods
+kubectl get pods
 ```
 
 You should also be able to see the service
 
 ```
-kubectl --namespace=kube-system get services
+kubectl get services
 ```
 
 Remember to route HTTP (80) and HTTPS (443) traffic to the ports exposed by traefik-ingress-service
