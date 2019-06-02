@@ -87,11 +87,13 @@ spec:
     k8s-app: traefik-ingress-controller
   ports:
   - protocol: TCP
-    port: 80
     name: http
+    port: 80
+    nodePort: 31029
   - protocol: TCP
-    port: 443
     name: https
+    port: 443
+    nodePort: 32702
   type: NodePort
 ---
 kind: Service
