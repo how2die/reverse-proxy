@@ -94,4 +94,4 @@ spec:
     k8s-app: traefik-ingress-controller
   ports:
   - port: 8080
-name: dashboard
+    name: dashboard
