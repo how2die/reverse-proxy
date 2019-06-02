@@ -2,7 +2,7 @@
 kind: ServiceAccount
 apiVersion: v1
 metadata:
-name: traefik-ingress-serviceaccount
+  name: traefik-ingress-serviceaccount
 ---
 kind: Deployment
 apiVersion: apps/v1
