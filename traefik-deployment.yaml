@@ -22,6 +22,7 @@ spec:
       labels:
         k8s-app: traefik-ingress-controller
         name: traefik-ingress-controller
+        namespace: traefik
     spec:
       serviceAccountName: traefik-ingress-serviceaccount
       terminationGracePeriodSeconds: 35
