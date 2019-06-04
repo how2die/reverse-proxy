@@ -4,7 +4,7 @@ Reverse proxy using [Træfik](https://traefik.io/) as an ingress controller.
 
 ## Getting started
 
-Based on the [official guide](https://docs.traefik.io/user-guide/kubernetes/) and [this guide](https://medium.com/@dusansusic/traefik-ingress-controller-for-k8s-c1137c9c05c4).
+Based on the [official guide](https://docs.traefik.io/user-guide/kubernetes/).
 
 ### Prerequisites
 
@@ -17,20 +17,6 @@ Create a dedicated namespace:
 
 ```
 kubectl create namespace traefik
-```
-
-### TLS Secret
-
-Create a TLS certificate:
-
-```
-openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout ./tls.key -out ./tls.crt -subj "/CN=*.how2die.com"
-```
-
-Create a secret object:
-
-```
-kubectl --namespace=traefik create secret tls traefik-ui-tls-cert --key ./tls.key --cert ./tls.crt
 ```
 
 ### Security
