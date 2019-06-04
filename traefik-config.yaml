@@ -43,4 +43,4 @@ data:
 
     [[acme.domains]]
       main = "how2die.com"
-      sans = ["www.how2die.com, k8s.how2die.com"]
+      sans = ["www.how2die.com", "k8s.how2die.com"]
