@@ -1,7 +1,7 @@
 ---
 # ------------------- Namespace: traefik ------------------- #
 
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   name: traefik-dashboard-ingress
@@ -21,7 +21,7 @@ spec:
 ---
 # ------------------- Namespace: kube-system ------------------- #
 
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   name: kubernetes-dashboard-ingress
@@ -41,7 +41,7 @@ spec:
 ---
 # ------------------- Namespace: default ------------------- #
 
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   name: how2die-website-ingress
