@@ -8,6 +8,9 @@ data:
   traefik.toml: |
     defaultEntryPoints = ["http","https"]
 
+    # Accept invalid SSL certificates for backends
+    insecureSkipVerify = true
+
     [entryPoints]
 
       [entryPoints.http]
