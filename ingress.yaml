@@ -15,7 +15,7 @@ spec:
       paths:
       - path: /
         backend:
-          serviceName: traefik-dashboard
+          serviceName: traefik-ingress-controller-dashboard-service
           servicePort: 8080
 
 ---
@@ -51,7 +51,7 @@ metadata:
 spec:
   rules:
   - host: how2die.com
-    http: &http_rules # YAML id
+    http: &http_rules
       paths:
       - path: /
         backend:
@@ -77,3 +77,4 @@ spec:
         backend:
           serviceName: adminer
           servicePort: 8080
+
