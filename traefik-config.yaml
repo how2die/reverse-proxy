@@ -16,9 +16,6 @@ data:
       [entryPoints.https]
       address = ":443"
         [entryPoints.https.tls]
-          [[entryPoints.https.tls.certificates]]
-          CertFile = "/ssl/tls.crt"
-          KeyFile = "/ssl/tls.key"
 
       [entryPoints.traefik]
         address = ":8080"
@@ -34,3 +31,16 @@ data:
 
     [api]
     entryPoint = "traefik"
+
+    [acme]
+    email = "admin@how2die.com"
+    storage = "/acme/acme.json"
+    entryPoint = "https"
+    onHostRule = true
+    [acme.httpChallenge]
+    entryPoint = "http"
+    caServer = "https://acme-staging-v02.api.letsencrypt.org/directory"
+
+    [[acme.domains]]
+      main = "how2die.com"
+      sans = ["www.how2die.com, k8s.how2die.com"]
