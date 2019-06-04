@@ -17,6 +17,26 @@ spec:
         backend:
           serviceName: traefik-dashboard
           servicePort: 8080
+
+---
+# ------------------- Namespace: kube-system ------------------- #
+
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: kubernetes-dashboard-ingress
+  namespace: kube-system
+  annotations:
+    kubernetes.io/ingress.class: traefik
+spec:
+  rules:
+  - host: k8s.how2die.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: kubernetes-dashboard
+          servicePort: 443
           
 ---
 # ------------------- Namespace: default ------------------- #
@@ -57,23 +77,3 @@ spec:
         backend:
           serviceName: adminer
           servicePort: 8080
-
----
-# ------------------- Namespace: kube-system ------------------- #
-
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  name: kubernetes-dashboard-ingress
-  namespace: kube-system
-  annotations:
-    kubernetes.io/ingress.class: traefik
-spec:
-  rules:
-  - host: k8s.how2die.com
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: kubernetes-dashboard
-          servicePort: 443
