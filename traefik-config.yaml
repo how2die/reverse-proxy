@@ -19,9 +19,8 @@ data:
       [entryPoints.https]
       address = ":443"
         [entryPoints.https.tls]
-
       [entryPoints.traefik]
-        address = ":8080"
+      address = ":8080"
         [entryPoints.traefik.auth.basic]
         users = ["admin:$apr1$zjjGWKW4$W2JIcu4m26WzOzzESDF0W/"]
 
@@ -40,10 +39,9 @@ data:
     storage = "/acme/acme.json"
     entryPoint = "https"
     onHostRule = true
-    [acme.httpChallenge]
-    entryPoint = "http"
-    caServer = "https://acme-staging-v02.api.letsencrypt.org/directory"
+      [acme.httpChallenge]
+      entryPoint = "http"
 
     [[acme.domains]]
       main = "how2die.com"
-      sans = ["www.how2die.com", "k8s.how2die.com"]
+      sans = ["www.how2die.com", "k8s.how2die.com", "traefik.how2die.com", "jenkins.how2die.com", "sql.how2die.com"]

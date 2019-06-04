@@ -1,12 +1,6 @@
 ---
-kind: ServiceAccount
-apiVersion: v1
-metadata:
-  name: traefik-ingress-serviceaccount
-  namespace: traefik
----
-kind: Deployment
 apiVersion: apps/v1
+kind: Deployment
 metadata:
   name: traefik-ingress-controller
   namespace: traefik
@@ -75,13 +69,11 @@ spec:
         - --logLevel=INFO
         - --configfile=/config/traefik.toml
 ---
-kind: Service
 apiVersion: v1
+kind: Service
 metadata:
   name: traefik-ingress-controller-http-service
   namespace: traefik
-  annotations: {}
-    # service.beta.kubernetes.io/aws-load-balancer-internal: 0.0.0.0/0
 spec:
   selector:
     k8s-app: traefik-ingress-controller
@@ -96,8 +88,8 @@ spec:
     nodePort: 32702
   type: NodePort
 ---
-kind: Service
 apiVersion: v1
+kind: Service
 metadata:
   name: traefik-ingress-controller-dashboard-service
   namespace: traefik
