@@ -61,6 +61,10 @@ spec:
         backend:
           serviceName: message-server
           servicePort: 8080
+      - path: /api/user
+        backend:
+          serviceName: user-server
+          servicePort: 8080
   - host: www.how2die.com
     http: *http_rules
   - host: jenkins.how2die.com
