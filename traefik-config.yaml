@@ -13,8 +13,10 @@ data:
   entryPoints:
     web:
       address: ":80"
+
     web-secure:
       address: ":443"
+
     traefik:
       address: ':8080'
       auth:
@@ -32,18 +34,18 @@ data:
   api:
     entryPoint: traefik
 
-  acme:
-    email: admin@how2die.com
-    storage: /acme/acme.json
-    entryPoint: web-secure
-    onHostRule: true
-    httpChallenge:
-      entryPoint: web
-    domains:
-    - main: how2die.com
-      sans:
-      - www.how2die.com
-      - k8s.how2die.com
-      - traefik.how2die.com
-      - jenkins.how2die.com
-      - sql.how2die.com
+  certificatesResolvers:
+    sample:
+      acme:
+        email: admin@how2die.com
+        storage: /acme/acme.json
+        httpChallenge:
+          entryPoint: web
+        domains:
+        - main: how2die.com
+          sans:
+          - www.how2die.com
+          - k8s.how2die.com
+          - traefik.how2die.com
+          - jenkins.how2die.com
+          - sql.how2die.com
