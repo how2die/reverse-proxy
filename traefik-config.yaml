@@ -5,43 +5,45 @@ metadata:
   name: traefik-ingress-configmap
   namespace: traefik
 data:
-  traefik.toml: |
-    defaultEntryPoints = ["http","https"]
+  traefik.yaml: |
 
-    # Accept invalid SSL certificates for backends
-    insecureSkipVerify = true
+  # Accept invalid SSL certificates for backends
+  insecureSkipVerify: true
 
-    [entryPoints]
-      [entryPoints.http]
-      address = ":80"
-        [entryPoints.http.redirect]
-        entryPoint = "https"
-      [entryPoints.https]
-      address = ":443"
-        [entryPoints.https.tls]
-      [entryPoints.traefik]
-      address = ":8080"
-        [entryPoints.traefik.auth.basic]
-        users = ["admin:$apr1$zjjGWKW4$W2JIcu4m26WzOzzESDF0W/"] # admin/admin
+  entryPoints:
+    web:
+      address: ":80"
+    web-secure:
+      address: ":443"
+    traefik:
+      address: ':8080'
+      auth:
+        basic:
+          users:
+          - 'admin:$apr1$zjjGWKW4$W2JIcu4m26WzOzzESDF0W/' # admin/admin
 
-    [kubernetes]
-      [kubernetes.ingressEndpoint]
-        publishedService = "traefik/traefik-ingress-controller-http-service"
+  kubernetes:
+    ingressEndpoint:
+      publishedService: traefik/traefik-ingress-controller-http-service
 
-    [ping]
-    entryPoint = "http"
+  ping:
+    entryPoint: web
 
-    [api]
-    entryPoint = "traefik"
+  api:
+    entryPoint: traefik
 
-    [acme]
-    email = "admin@how2die.com"
-    storage = "/acme/acme.json"
-    entryPoint = "https"
-    onHostRule = true
-      [acme.httpChallenge]
-      entryPoint = "http"
-
-    [[acme.domains]]
-      main = "how2die.com"
-      sans = ["www.how2die.com", "k8s.how2die.com", "traefik.how2die.com", "jenkins.how2die.com", "sql.how2die.com"]
+  acme:
+    email: admin@how2die.com
+    storage: /acme/acme.json
+    entryPoint: web-secure
+    onHostRule: true
+    httpChallenge:
+      entryPoint: web
+    domains:
+    - main: how2die.com
+      sans:
+      - www.how2die.com
+      - k8s.how2die.com
+      - traefik.how2die.com
+      - jenkins.how2die.com
+      - sql.how2die.com
