@@ -7,9 +7,6 @@ metadata:
 data:
   traefik.yaml: |
 
-  # Accept invalid SSL certificates for backends
-  insecureSkipVerify: true
-
   entryPoints:
     web:
       address: ":80"
@@ -27,6 +24,10 @@ data:
   kubernetes:
     ingressEndpoint:
       publishedService: traefik/traefik-ingress-controller-http-service
+
+  serversTransport:
+    # Accept invalid SSL certificates for backends
+    insecureSkipVerify: true
 
   ping:
     entryPoint: web
