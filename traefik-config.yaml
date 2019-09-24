@@ -7,46 +7,40 @@ metadata:
 data:
   traefik.yaml: |
 
-  entryPoints:
-    web:
-      address: ":80"
-
-    web-secure:
-      address: ":443"
-
-    traefik:
-      address: ':8080'
-      auth:
-        basic:
-          users:
-          - 'admin:$apr1$zjjGWKW4$W2JIcu4m26WzOzzESDF0W/' # admin/admin
-
-  kubernetes:
-    ingressEndpoint:
-      publishedService: traefik/traefik-ingress-controller-http-service
+  global:
+    checkNewVersion: true
+    sendAnonymousUsage: true
 
   serversTransport:
     # Accept invalid SSL certificates for backends
     insecureSkipVerify: true
 
+  entryPoints:
+    web:
+      address: :80
+    web-secure:
+      address: :443
+    traefik:
+      address: :8080
+
+  providers:
+    providersThrottleDuration: 2s
+    kubernetesIngress:
+      ingressEndpoint:
+        publishedService: traefik/traefik-ingress-controller-http-service
+
+  api:
+    insecure: true
+
   ping:
     entryPoint: web
 
-  api:
-    entryPoint: traefik
+  log: {}
 
   certificatesResolvers:
-    sample:
+    default:
       acme:
         email: admin@how2die.com
         storage: /acme/acme.json
         httpChallenge:
           entryPoint: web
-        domains:
-        - main: how2die.com
-          sans:
-          - www.how2die.com
-          - k8s.how2die.com
-          - traefik.how2die.com
-          - jenkins.how2die.com
-          - sql.how2die.com
