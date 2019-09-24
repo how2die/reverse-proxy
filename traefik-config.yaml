@@ -6,41 +6,41 @@ metadata:
   namespace: traefik
 data:
   traefik.yaml: |
+  
+    global:
+      checkNewVersion: true
+      sendAnonymousUsage: true
 
-  global:
-    checkNewVersion: true
-    sendAnonymousUsage: true
+    serversTransport:
+      # Accept invalid SSL certificates for backends
+      insecureSkipVerify: true
 
-  serversTransport:
-    # Accept invalid SSL certificates for backends
-    insecureSkipVerify: true
+    entryPoints:
+      web:
+        address: :80
+      web-secure:
+        address: :443
+      traefik:
+        address: :8080
 
-  entryPoints:
-    web:
-      address: :80
-    web-secure:
-      address: :443
-    traefik:
-      address: :8080
+    providers:
+      providersThrottleDuration: 2s
+      kubernetesIngress:
+        ingressEndpoint:
+          publishedService: traefik/traefik-ingress-controller-http-service
 
-  providers:
-    providersThrottleDuration: 2s
-    kubernetesIngress:
-      ingressEndpoint:
-        publishedService: traefik/traefik-ingress-controller-http-service
+    api:
+      insecure: true
 
-  api:
-    insecure: true
+    ping:
+      entryPoint: web
 
-  ping:
-    entryPoint: web
+    log: {}
 
-  log: {}
-
-  certificatesResolvers:
-    default:
-      acme:
-        email: admin@how2die.com
-        storage: /acme/acme.json
-        httpChallenge:
-          entryPoint: web
+    certificatesResolvers:
+      default:
+        acme:
+          email: admin@how2die.com
+          storage: /acme/acme.json
+          httpChallenge:
+            entryPoint: web
