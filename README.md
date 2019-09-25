@@ -55,6 +55,16 @@ kubectl --namespace=traefik get services
 
 Remember to route HTTP (80) and HTTPS (443) traffic to the ports exposed by traefik-ingress-service
 
+### Custom resource definitions
+
+Install custom resource definitions used by Traefik:
+
+```
+kubectl apply -f ingressroute-definition.yaml
+
+kubectl apply -f middleware-definition.yaml
+```
+
 ### Ingress
 
 Write ingress rules to *ingress.yaml* and apply
