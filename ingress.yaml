@@ -18,6 +18,8 @@ spec:
       port: 8080
     middlewares:
     - redirect
+  tls:
+    certResolver: default
 
 ---
 # ------------------- Namespace: kube-system ------------------- #
@@ -39,6 +41,8 @@ spec:
       port: 443
     middlewares:
     - redirect
+  tls:
+    certResolver: default
 
 ---
 # ------------------- Namespace: default ------------------- #
@@ -74,6 +78,8 @@ spec:
       port: 8080
     middlewares:
     - redirect
+  tls:
+    certResolver: default
 
 ---
 
@@ -92,6 +98,8 @@ spec:
       port: 8080
     middlewares:
     - redirect
+  tls:
+    certResolver: default
 
 ---
 # ------------------- Middlewares ------------------- #
