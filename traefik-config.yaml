@@ -35,7 +35,8 @@ data:
     ping:
       entryPoint: web
 
-    log: {}
+    log:
+      level: DEBUG
 
     certificatesResolvers:
       default:
@@ -44,10 +45,3 @@ data:
           storage: /acme/acme.json
           httpChallenge:
             entryPoint: web
-          domains:
-            main: how2die.com
-            sans:
-            - "www.how2die.com"
-            - "k8s.how2die.com" 
-            - "traefik.how2die.com" 
-            - "sql.how2die.com"
