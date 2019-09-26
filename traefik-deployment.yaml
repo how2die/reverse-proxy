@@ -59,9 +59,9 @@ spec:
           - mountPath: /acme
             name: acme
         ports:
-        - name: http
+        - name: web
           containerPort: 80
-        - name: https
+        - name: web-secure
           containerPort: 443
         - name: dashboard
           containerPort: 8080
