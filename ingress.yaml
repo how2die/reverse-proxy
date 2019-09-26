@@ -86,10 +86,12 @@ spec:
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: how2die-website-ingress
+  name: how2die-website-www-ingress
   namespace: default
 spec:
-  entryPoints: []
+  entryPoints:
+  - web
+  - web-secure
   routes:
   - match: Host(`sql.how2die.com`) && PathPrefix(`/`)
     kind: Rule
