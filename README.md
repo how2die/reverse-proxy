@@ -24,7 +24,7 @@ kubectl create namespace traefik
 For the sake of simplicity, use a ClusterRoleBinding for privileges
 
 ```
-kubectl apply -f traefik-rbac.yaml
+kubectl apply -f rbac.yaml
 ```
 
 ### Configuration
@@ -60,7 +60,7 @@ Remember to route HTTP (80) and HTTPS (443) traffic to the ports exposed by trae
 Install custom resource definitions used by Traefik:
 
 ```
-kubectl apply -f ingressroute-definition.yaml
+kubectl apply -f resource-definitions.yaml
 
 kubectl apply -f middleware-definition.yaml
 ```
