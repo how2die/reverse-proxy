@@ -39,12 +39,10 @@ spec:
           containerPort: 8080
         args:
         - --accesslog
-        - --api.insecure
         - --certificatesresolvers.default.acme.email=admin@how2die.com
         - --certificatesresolvers.default.acme.httpchallenge.entrypoint=web
         - --certificatesresolvers.default.acme.storage=/acme/acme.json
         - --entrypoints.web.address=:80
-        - --entrypoints.web.forwardedheaders.insecure
         - --entrypoints.web-secure.address=:443
         - --entrypoints.traefik.address=:8080
         - --global.checknewversion
@@ -54,7 +52,7 @@ spec:
         - --ping
         - --ping.entrypoint=web
         - --providers.kubernetescrd
-        - --serverstransport.insecureskipverify    
+        - --serverstransport.insecureskipverify
    
 ---
 kind: Service
