@@ -1,84 +1,46 @@
----
-# ------------------- Namespace: traefik ------------------- #
-
-apiVersion: networking.k8s.io/v1beta1
-kind: Ingress
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
 metadata:
-  name: traefik-dashboard-ingress
+  name: how2die-forward-http-to-https
   namespace: traefik
-  annotations:
-    kubernetes.io/ingress.class: traefik
 spec:
-  rules:
-  - host: traefik.how2die.com
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: traefik-ingress-controller-dashboard-service
-          servicePort: 8080
+  entryPoints:
+  - web
+  routes:
+  - match: HostRegexp(`how2die.com`, `{subdomain:[a-z]+}.how2die.com`)
+    kind: Rule
+    services:
+    - name: traefik-ingress-controller-http-service
+      port: 80
+    middlewares:
+    - name: redirect
 
 ---
-# ------------------- Namespace: kube-system ------------------- #
-
-apiVersion: networking.k8s.io/v1beta1
-kind: Ingress
-metadata:
-  name: kubernetes-dashboard-ingress
-  namespace: kube-system
-  annotations:
-    kubernetes.io/ingress.class: traefik
-spec:
-  rules:
-  - host: k8s.how2die.com
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: kubernetes-dashboard
-          servicePort: 443
-          
----
-# ------------------- Namespace: default ------------------- #
-
-apiVersion: networking.k8s.io/v1beta1
-kind: Ingress
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
 metadata:
   name: how2die-website-ingress
   namespace: default
-  annotations:
-    kubernetes.io/ingress.class: traefik
 spec:
-  rules:
-  - host: how2die.com
-    http: &http_rules
-      paths:
-      - path: /
-        backend:
-          serviceName: website
-          servicePort: 80
-      - path: /api/messages
-        backend:
-          serviceName: message-server
-          servicePort: 8080
-      - path: /api/user
-        backend:
-          serviceName: user-server
-          servicePort: 8080
-  - host: www.how2die.com
-    http: *http_rules
-  - host: jenkins.how2die.com
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: jenkins
-          servicePort: 8080
-  - host: sql.how2die.com
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: adminer
-          servicePort: 8080
+  entryPoints:
+  - web-secure
+  routes:
+  - match: Host(`how2die.com`)
+    kind: Rule
+    services:
+    - name: website
+      port: 80
+  tls:
+    certResolver: default
 
+---
+# ------------------- Middlewares ------------------- #
+
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: redirect
+  namespace: traefik
+spec:
+  redirectScheme:
+    scheme: https
