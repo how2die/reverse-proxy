@@ -1,52 +1,21 @@
----
-# ------------------- Namespace: traefik ------------------- #
-
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: traefik-dashboard-ingress
+  name: how2die-forward-http-to-https
   namespace: traefik
 spec:
   entryPoints:
   - web
-  - web-secure
   routes:
-  - match: Host(`traefik.how2die.com`) && PathPrefix(`/`)
+  - match: HostRegexp(`how2die.com`, `{subdomain:[a-z]+}.how2die.com`)
     kind: Rule
     services:
-    - name: traefik-ingress-controller-dashboard-service
-      port: 8080
+    - name: traefik-ingress-controller-http-service
+      port: 80
     middlewares:
-    - redirect
-  tls:
-    certResolver: default
+    - name: redirect
 
 ---
-# ------------------- Namespace: kube-system ------------------- #
-
-apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRoute
-metadata:
-  name: kubernetes-dashboard-ingress
-  namespace: kube-system
-spec:
-  entryPoints:
-  - web
-  - web-secure
-  routes:
-  - match: Host(`k8s.how2die.com`) && PathPrefix(`/`)
-    kind: Rule
-    services:
-    - name: kubernetes-dashboard
-      port: 443
-    middlewares:
-    - redirect
-  tls:
-    certResolver: default
-
----
-# ------------------- Namespace: default ------------------- #
-
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
@@ -54,52 +23,13 @@ metadata:
   namespace: default
 spec:
   entryPoints:
-  - web
   - web-secure
   routes:
-  - match: Host(`how2die.com`) && PathPrefix(`/`)
+  - match: Host(`how2die.com`)
     kind: Rule
     services:
     - name: website
       port: 80
-    middlewares:
-    - redirect
-  - match: Host(`how2die.com`) && PathPrefix(`/api/messages`)
-    kind: Rule
-    services:
-    - name: message-server
-      port: 8080
-    middlewares:
-    - redirect
-  - match: Host(`how2die.com`) && PathPrefix(`/api/user`)
-    kind: Rule
-    services:
-    - name: user-server
-      port: 8080
-    middlewares:
-    - redirect
-  tls:
-    certResolver: default
-
----
-
-apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRoute
-metadata:
-  name: how2die-website-www-ingress
-  namespace: default
-spec:
-  entryPoints:
-  - web
-  - web-secure
-  routes:
-  - match: Host(`sql.how2die.com`) && PathPrefix(`/`)
-    kind: Rule
-    services:
-    - name: adminer
-      port: 8080
-    middlewares:
-    - redirect
   tls:
     certResolver: default
 

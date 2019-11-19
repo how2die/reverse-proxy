@@ -19,11 +19,7 @@ spec:
         namespace: traefik
     spec:
       serviceAccountName: traefik-ingress-serviceaccount
-      terminationGracePeriodSeconds: 35
       volumes:
-        - name: traefik-ingress-configmap
-          configMap:
-            name: traefik-ingress-configmap
         - name: acme
           hostPath:
             path: /srv/configs
@@ -31,31 +27,7 @@ spec:
       - image: traefik
         name: traefik-ingress-controller
         imagePullPolicy: Always
-        resources:
-          limits:
-            cpu: 200m
-            memory: 384Mi
-          requests:
-            cpu: 25m
-            memory: 128Mi
-        livenessProbe:
-          failureThreshold: 2
-          httpGet:
-            path: /ping
-            port: 80
-            scheme: HTTP
-          initialDelaySeconds: 10
-          periodSeconds: 5
-        readinessProbe:
-          failureThreshold: 2
-          httpGet:
-            path: /ping
-            port: 80
-            scheme: HTTP
-          periodSeconds: 5
         volumeMounts:
-          - mountPath: "/config"
-            name: "traefik-ingress-configmap"
           - mountPath: /acme
             name: acme
         ports:
@@ -66,7 +38,23 @@ spec:
         - name: dashboard
           containerPort: 8080
         args:
-        - --configfile=/config/traefik.yaml
+        - --accesslog
+        - --api.insecure
+        - --certificatesresolvers.default.acme.email=admin@how2die.com
+        - --certificatesresolvers.default.acme.httpchallenge.entrypoint=web
+        - --certificatesresolvers.default.acme.storage=/acme/acme.json
+        - --entrypoints.web.address=:80
+        - --entrypoints.web.forwardedheaders.insecure
+        - --entrypoints.web-secure.address=:443
+        - --entrypoints.traefik.address=:8080
+        - --global.checknewversion
+        - --global.sendanonymoususage
+        - --log
+        - --log.level=DEBUG
+        - --ping
+        - --ping.entrypoint=web
+        - --providers.kubernetescrd
+        - --serverstransport.insecureskipverify       
 ---
 apiVersion: v1
 kind: Service
@@ -86,6 +74,7 @@ spec:
     port: 443
     nodePort: 32702
   type: NodePort
+
 ---
 apiVersion: v1
 kind: Service
