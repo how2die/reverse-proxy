@@ -19,23 +19,85 @@ spec:
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
+  name: traefik-dashboard-ingress
+  namespace: traefik
+spec:
+  entryPoints:
+  - web-secure
+  routes:
+  - match: Host(`traefik.how2die.com`) && PathPrefix(`/`)
+    kind: Rule
+    services:
+    - name: traefik-ingress-controller-dashboard-service
+      port: 8080
+  tls:
+    certResolver: default
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: kubernetes-dashboard-ingress
+  namespace: kube-system
+spec:
+  entryPoints:
+  - web-secure
+  routes:
+  - match: Host(`k8s.how2die.com`) && PathPrefix(`/`)
+    kind: Rule
+    services:
+    - name: kubernetes-dashboard
+      port: 443
+  tls:
+    certResolver: default
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
   name: how2die-website-ingress
   namespace: default
 spec:
   entryPoints:
   - web-secure
   routes:
-  - match: Host(`how2die.com`)
+  - match: Host(`how2die.com`, `www.how2die.com`) && PathPrefix(`/`)
     kind: Rule
     services:
     - name: website
       port: 80
+  - match: Host(`how2die.com`, `www.how2die.com`) && PathPrefix(`/api/messages`)
+    kind: Rule
+    services:
+    - name: message-server
+      port: 8080
+  - match: Host(`how2die.com`, `www.how2die.com`) && PathPrefix(`/api/user`)
+    kind: Rule
+    services:
+    - name: user-server
+      port: 8080
   tls:
     certResolver: default
 
 ---
-# ------------------- Middlewares ------------------- #
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: how2die-sql-ingress
+  namespace: default
+spec:
+  entryPoints:
+  - web-secure
+  routes:
+  - match: Host(`sql.how2die.com`) && PathPrefix(`/`)
+    kind: Rule
+    services:
+    - name: adminer
+      port: 8080
+  tls:
+    certResolver: default
 
+---
 apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:
