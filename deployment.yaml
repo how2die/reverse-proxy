@@ -39,6 +39,7 @@ spec:
           containerPort: 8080
         args:
         - --accesslog
+        - --api.insecure
         - --certificatesresolvers.default.acme.email=admin@how2die.com
         - --certificatesresolvers.default.acme.httpchallenge.entrypoint=web
         - --certificatesresolvers.default.acme.storage=/acme/acme.json
