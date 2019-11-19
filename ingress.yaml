@@ -1,5 +1,5 @@
-apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
+apiVersion: traefik.containo.us/v1alpha1
 metadata:
   name: how2die-forward-http-to-https
   namespace: traefik
@@ -16,8 +16,8 @@ spec:
     - name: redirect
 
 ---
-apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
+apiVersion: traefik.containo.us/v1alpha1
 metadata:
   name: traefik-dashboard-ingress
   namespace: traefik
@@ -34,8 +34,8 @@ spec:
     certResolver: default
 
 ---
-apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
+apiVersion: traefik.containo.us/v1alpha1
 metadata:
   name: kubernetes-dashboard-ingress
   namespace: kube-system
@@ -52,8 +52,8 @@ spec:
     certResolver: default
 
 ---
-apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
+apiVersion: traefik.containo.us/v1alpha1
 metadata:
   name: how2die-website-ingress
   namespace: default
@@ -80,8 +80,8 @@ spec:
     certResolver: default
 
 ---
-apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
+apiVersion: traefik.containo.us/v1alpha1
 metadata:
   name: how2die-sql-ingress
   namespace: default
@@ -98,8 +98,8 @@ spec:
     certResolver: default
 
 ---
-apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
+apiVersion: traefik.containo.us/v1alpha1
 metadata:
   name: redirect
   namespace: traefik

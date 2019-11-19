@@ -1,6 +1,6 @@
 ---
-apiVersion: apps/v1
 kind: Deployment
+apiVersion: apps/v1
 metadata:
   name: traefik-ingress-controller
   namespace: traefik
@@ -54,10 +54,11 @@ spec:
         - --ping
         - --ping.entrypoint=web
         - --providers.kubernetescrd
-        - --serverstransport.insecureskipverify       
+        - --serverstransport.insecureskipverify    
+   
 ---
-apiVersion: v1
 kind: Service
+apiVersion: v1
 metadata:
   name: traefik-ingress-controller-http-service
   namespace: traefik
@@ -76,8 +77,8 @@ spec:
   type: NodePort
 
 ---
-apiVersion: v1
 kind: Service
+apiVersion: v1
 metadata:
   name: traefik-ingress-controller-dashboard-service
   namespace: traefik
