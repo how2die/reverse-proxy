@@ -60,6 +60,14 @@ rules:
       - get
       - list
       - watch
+  - apiGroups:
+      - traefik.containo.us
+    resources:
+      - traefikservices
+    verbs:
+      - get
+      - list
+      - watch
 
 ---
 kind: ClusterRoleBinding
