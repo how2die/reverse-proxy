@@ -74,7 +74,7 @@ spec:
   - match: Host(`how2die.com`, `www.how2die.com`) && PathPrefix(`/api/user`)
     kind: Rule
     services:
-    - name: user-server
+    - name: user-service
       port: 8080
   tls:
     certResolver: default
