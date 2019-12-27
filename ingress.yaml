@@ -71,7 +71,7 @@ spec:
     services:
     - name: message-server
       port: 8080
-  - match: Host(`how2die.com`, `www.how2die.com`) && PathPrefix(`/api/user`)
+  - match: Host(`how2die.com`, `www.how2die.com`) && PathPrefix(`/api/users`, `/api/tokens`)
     kind: Rule
     services:
     - name: user-service
