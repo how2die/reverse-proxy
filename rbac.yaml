@@ -31,38 +31,12 @@ rules:
   - apiGroups:
       - traefik.containo.us
     resources:
-      - middlewares
-    verbs:
-      - get
-      - list
-      - watch
-  - apiGroups:
-      - traefik.containo.us
-    resources:
       - ingressroutes
-    verbs:
-      - get
-      - list
-      - watch
-  - apiGroups:
-      - traefik.containo.us
-    resources:
+      - middlewares
       - ingressroutetcps
-    verbs:
-      - get
-      - list
-      - watch
-  - apiGroups:
-      - traefik.containo.us
-    resources:
+      - ingressrouteudps
       - tlsoptions
-    verbs:
-      - get
-      - list
-      - watch
-  - apiGroups:
-      - traefik.containo.us
-    resources:
+      - tlsstores
       - traefikservices
     verbs:
       - get
