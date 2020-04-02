@@ -38,7 +38,7 @@ kind: IngressRoute
 apiVersion: traefik.containo.us/v1alpha1
 metadata:
   name: kubernetes-dashboard-ingress
-  namespace: kube-system
+  namespace: kubernetes-dashboard
 spec:
   entryPoints:
   - web-secure
